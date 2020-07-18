@@ -6,7 +6,26 @@ THIS MUST BE RAN FROM A LINUX HOST.
 Install AzureCLI
 https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
 
+Install Terraform
+https://learn.hashicorp.com/terraform/getting-started/install.html
+
 Create Token/Document
 https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html
 
-Edit file 
+
+Edit LabBuilder.py and add in your Token info at the top of the file. You can also update the Region variable to desired region.
+
+List of regions can be found here that offer the Bs-series we use in this lab environment.
+https://azure.microsoft.com/en-us/global-infrastructure/services/?products=virtual-machines
+
+Next lets build the working directory and deploy
+git clone https://github.com/DefensiveOrigins/APT-Lab-Terraform.git
+
+cd APT-Lab-Terraform
+
+python -m pip install -r requirements.txt
+
+Next you will run the builder and deploy your systems. 
+python .\LabBuilder.py -m YOURPUBLICIP
+
+-m will accept a single IP Address or Subnet as input
