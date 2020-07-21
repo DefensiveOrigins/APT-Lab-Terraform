@@ -1,9 +1,0 @@
-urllib
-json
-subprocess
-os 
-errno 
-shutil
-argparse
-configparser
-csv
