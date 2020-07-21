@@ -26,4 +26,4 @@ cd APT-Lab-Terraform
 Next you will run the builder and deploy your systems. 
 python .\LabBuilder.py -m YOURPUBLICIP
 
--m will accept a single IP Address or Subnet as input
+-m will accept a single IP Address or Subnet as input this is to add your Public ip you will be accessing it from to the Security group as allowed. 
