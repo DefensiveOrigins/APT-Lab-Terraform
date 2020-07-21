@@ -1,7 +1,7 @@
 # APT-Lab-Terraform
 Purple Teaming Attack &amp; Hunt Lab - Terraform
 
-THIS MUST BE RAN FROM A LINUX HOST.
+THIS MUST BE RAN FROM A LINUX HOST WITH PYTHON 3.
 
 Install AzureCLI
 https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
