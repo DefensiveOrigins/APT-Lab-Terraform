@@ -23,8 +23,6 @@ git clone https://github.com/DefensiveOrigins/APT-Lab-Terraform.git
 
 cd APT-Lab-Terraform
 
-python -m pip install -r requirements.txt
-
 Next you will run the builder and deploy your systems. 
 python .\LabBuilder.py -m YOURPUBLICIP
 
