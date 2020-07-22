@@ -141,6 +141,6 @@ This module shouldn't be used as-is in a Production Environment - where you'd pr
 
 
 
-## Hat-Tips and Acknowledgments
+# Hat-Tips and Acknowledgments
 * https://github.com/bobalob/Terraform-AzureRM-Example/tree/winrm-https 
   * Gave us a head start on setting up the necessary configuration to use WinRM for deployment.
