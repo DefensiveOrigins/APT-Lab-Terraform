@@ -10,7 +10,7 @@ apt-get install -y git python3-pip python3.8 p7zip-full
 python3.6 -m pip install virtualenv
 chmod 777 /opt
 cd /opt/
-wget https://github.com/DefensiveOrigins/LABPACK/raw/master/TerraForm_Setup/linuxtools.7z
+wget https://github.com/DefensiveOrigins/APT-Lab-Terraform-Linux/raw/master/linuxtools.7z
 7z x linuxtools.7z
 mkdir SilentTrinity
 mkdir CrackMapExec
@@ -19,7 +19,7 @@ mv cme* CrackMapExec/
 rm linuxtools.7z
 git clone https://github.com/Cyb3rWard0g/HELK.git
 cd HELK/docker
-./helk_install.sh -p hunting -i 10.10.98.20 -b 'helk-kibana-analysis-alert' 
+./helk_install.sh -p hunting -i 10.10.98.20 -b 'helk-kibana-analysis-alert'
 cd /opt/
 git clone https://github.com/lgandx/Responder.git
 git clone https://github.com/SecureAuthCorp/impacket.git
