@@ -47,6 +47,50 @@ https://learn.hashicorp.com/terraform/getting-started/install.html
 * https://www.terraform.io/docs/providers/azurerm/guides/service_principal_client_secret.html
 * Edit LabBuilder.py and add in your Token info at the top of the file. 
 
+## Default Credentials:
+Default credentials are set in LabBuilder.py.
+* Windows & Linux systems:
+```bash
+itadmin:APTClass!
+```
+* Kibana:
+```bash 
+helk:hunting
+```
+
+### Changing Default Credentials
+The credentials can be changed within the locals variable:
+``` bash  
+locals {
+  resource_group_name   = "class-resources"
+  master_admin_username ="itadmin"
+  master_admin_password ="APTClass!"
+  master_domain         ="labs.local"
+}
+```
+
+The password for Kibana can be changed by editing the HELK install line:
+```bash
+./helk_install.sh -p hunting -i 10.10.98.20 -b 'helk-kibana-analysis-alert'
+```
+within the
+```bash
+3-setup.tf`
+```
+This file is located at:
+
+```bash
+APT-Lab-Terraform/master/modules/linux/3-setup.tf
+```
+
+Please note the following regarding access:
+* Only the Windows client is accessible externally
+* Kibana is accessed internally, use a browser on one of the Windows machines to access.
+* An SSH client will need to be installed on the Windows machines in order to SSH to the Linux system.
+
+
+
+
 ## Configure Regions
 * You can also update the Region variable to desired region. This is updated LabBuilder.py.
 * List of regions can be found here that offer the B-series we use in this lab environment.
@@ -65,11 +109,53 @@ Run the builder and deploy your systems.
 ```bash
 python .\LabBuilder.py -m YOURPUBLICIP
 ```
+Please note:
+* If this script errors, or there are missing dependencies ensure it is being executed with Python 3.X. As such, attempt to execute with Python3 directly:
+```bash
+python3 .\LabBuilder.py -m YOURPUBLICIP
+``` 
+
+
+
 ## Source IP Filtering
 The -m flag will accept a single IP Address or Subnet as input. This adds the IP as a SRC IP address filter on the lab environment. 
 ```bash
 -m [IP]
 ```
+
+## Successful Deployment
+To confirm successful deployment the following 3 virtual machines will be found within Azure:
+* stu-client
+* stu-dc
+* stu-linux
+
+![](images/azure_1.jpg)
+
+
+
+## Trouble Shooting Steps
+If LabBuilder.py errors during execution. Delete the LABS folder, found at 
+```bash
+APT-Lab-Terraform/LABS/
+```
+ The error (shown at the top of script execution) is
+ ```bash
+ Directory not copied. Error: [Errno 17] File exists: './LABS'.
+ ```
+
+
+Errors referencing a 'duplicate' are also solved by this. Examples include:
+```bash
+Error: Duplicate module call
+Error: Duplicate resource "azurerm_resource_group" configuration
+```
+
+
+
+
+## Accessing HELK:
+
+
 
 --- 
 
