@@ -138,7 +138,7 @@ If LabBuilder.py errors during execution. Delete the LABS folder, found at
 ```bash
 APT-Lab-Terraform/LABS/
 ```
- The error (shown at the top of script execution) is
+ The error (shown at the top of script execution) is:
  ```bash
  Directory not copied. Error: [Errno 17] File exists: './LABS'.
  ```
@@ -149,6 +149,15 @@ Errors referencing a 'duplicate' are also solved by this. Examples include:
 Error: Duplicate module call
 Error: Duplicate resource "azurerm_resource_group" configuration
 ```
+
+# Destroying the Lab
+```bash
+python .\LabBuilder.py -destroy
+```
+
+The '-d' or '-destroy' flag will execute theTerraform destroy command. This will remove the Lab in Azure. - CAUTION: All data within the VMs will be deleted.
+
+Please confirm within the Azure portal that everything has been deleted.
 
 
 

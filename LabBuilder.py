@@ -1,4 +1,4 @@
-import urllib,json, subprocess, os, errno, shutil, argparse, configparser, csv
+import urllib,json, subprocess, os, errno, shutil, argparse, configparser, csv, time
 from requests import get
 
 region="centralus"
@@ -151,27 +151,34 @@ resource "azurerm_network_security_group" "stu-rdp" {
 def main():
     parser = argparse.ArgumentParser(description='Creates Azure resources for Lab environment with terraform')
     parser.add_argument('-m', help='Public IP Addresses for management access rules(ex. 1.1.1.1 or 1.1.1.0/24', 
-        metavar='input_mgmt', dest='mgmtip', type=str, nargs='+', required=True)
+        metavar='input_mgmt', dest='mgmtip', type=str, nargs='+', required=False)
+    parser.add_argument('-d','-destroy', help='Will use terraform Destroy to destroy everything created by this script in Azure',  action='store_true', dest='destroy_switch',  required=False)
     args=parser.parse_args()
-    def split_args(arg):
-        try:
-            arg=" ".join(arg)
-            arg=arg.replace(" ", "")
-            if any("," in item for item in arg):
-                arg = arg.split(",")
-            if type(arg) is list:
-                return arg
-            else:
-                return [arg]
-        except TypeError:
-            #this is thrown if a None is passed in for 'arg'
-            return None
 
-    mgmtip=args.mgmtip
-    masterfolder="./master"
-    classfolder="./LABS"
-    copy(masterfolder,classfolder)
-    buildmain(mgmtip)
-    os.system("cd LABS && terraform init")
-    os.system("cd LABS && terraform apply -auto-approve")
+    if args.destroy_switch:
+        print("===This will use Terraform to DESTROY the Lab environment that was created in Azure====== \n This will 'un-build' the lab and all the data will be destroyed")
+        time.sleep(3)
+        os.system("cd LABS && terraform destroy")  
+    else:
+      def split_args(arg):
+          try:
+              arg=" ".join(arg)
+              arg=arg.replace(" ", "")
+              if any("," in item for item in arg):
+                  arg = arg.split(",")
+              if type(arg) is list:
+                  return arg
+              else:
+                  return [arg]
+          except TypeError:
+              #this is thrown if a None is passed in for 'arg'
+              return None
+
+      mgmtip=args.mgmtip
+      masterfolder="./master"
+      classfolder="./LABS"
+      copy(masterfolder,classfolder)
+      buildmain(mgmtip)
+      os.system("cd LABS && terraform init")
+      os.system("cd LABS && terraform apply -auto-approve")
 main()
