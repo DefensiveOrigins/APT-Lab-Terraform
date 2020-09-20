@@ -133,7 +133,7 @@ To confirm successful deployment the following 3 virtual machines will be found 
 
 
 
-## Trouble Shooting Steps
+## Troubleshooting Steps
 If LabBuilder.py errors during execution. Delete the LABS folder, found at 
 ```bash
 APT-Lab-Terraform/LABS/
@@ -155,7 +155,7 @@ Error: Duplicate resource "azurerm_resource_group" configuration
 python .\LabBuilder.py -destroy
 ```
 
-The '-d' or '-destroy' flag will execute theTerraform destroy command. This will remove the Lab in Azure. - CAUTION: All data within the VMs will be deleted.
+The '-d' or '-destroy' flag will execute theTerraform destroy command. This will remove the Lab in Azure. **CAUTION**: All data within the VMs will be deleted.
 
 Please confirm within the Azure portal that everything has been deleted.
 
