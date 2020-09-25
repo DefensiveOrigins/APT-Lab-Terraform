@@ -26,7 +26,7 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 (Get-WmiObject -class Win32_TSGeneralSetting -Namespace root\cimv2\terminalservices -ComputerName localhost -Filter "TerminalName='RDP-tcp'").SetUserAuthenticationRequired(0)
 $RDPUsers ="Net localgroup “Remote Desktop Users” /add “LABS\Domain Users"
 Invoke-command -computername localhost -scriptblock {$RDPUsers} -Credential $Cred
-C:/LABS/scripts/ad-users-create-script.ps1
+C:/LABS/scripts/ad-users-create-script.ps1 ${var.admin_password} ${var.admin_username}
 C:/LABS/scripts/shareLabs.ps1
 Remove-WindowsFeature Windows-Defender, Windows-Defender-GUI
 ping 1.1.1.1
