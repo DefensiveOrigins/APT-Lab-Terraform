@@ -26,36 +26,38 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 (Get-WmiObject -class Win32_TSGeneralSetting -Namespace root\cimv2\terminalservices -ComputerName localhost -Filter "TerminalName='RDP-tcp'").SetUserAuthenticationRequired(0)
 $RDPUsers ="Net localgroup “Remote Desktop Users” /add “LABS\Domain Users"
 Invoke-command -computername localhost -scriptblock {$RDPUsers} -Credential $Cred
-C:/LABS/scripts/ad-users-create-script.ps1 ${var.admin_password} ${var.admin_username}
+C:/LABS/scripts/ad-users-create-script.ps1 var.admin_password var.admin_username
 C:/LABS/scripts/shareLabs.ps1
 Remove-WindowsFeature Windows-Defender, Windows-Defender-GUI
 ping 1.1.1.1
 Restart-Computer
 EOF
   settings_windows = {
-    script   = "${compact(concat(split("\n", local.script)))}"
+    script   = compact(concat(split("\n", local.script)))
   }
 }
 
 data "azurerm_resource_group" "main" {
-  name = "${var.resource_group_name}"
+  name = var.resource_group_name
+depends_on = [null_resource.wait-for-dc]
 }
 
 data "azurerm_virtual_machine" "main" {
-  name                = "${azurerm_virtual_machine.domain-controller.name}"
-  resource_group_name = "${data.azurerm_resource_group.main.name}"
+  name                = azurerm_virtual_machine.domain-controller.name
+  resource_group_name = data.azurerm_resource_group.main.name
+depends_on = [null_resource.wait-for-dc]
 }
 
 resource "azurerm_virtual_machine_extension" "windows" {
-  name                       = "${azurerm_virtual_machine.domain-controller.name}-run-command"
-  location                   = "${data.azurerm_resource_group.main.location}"
-  resource_group_name        = "${data.azurerm_resource_group.main.name}"
-  virtual_machine_name       = "${data.azurerm_virtual_machine.main.name}"
+  name                       = "azurerm_virtual_machine.domain-controller.name-run-command"
+  location                   = data.azurerm_resource_group.main.location
+  resource_group_name        = data.azurerm_resource_group.main.name
+  virtual_machine_name       = data.azurerm_virtual_machine.main.name
   publisher                  = "Microsoft.CPlat.Core"
   type                       = "RunCommandWindows"
   type_handler_version       = "1.1"
   auto_upgrade_minor_version = true
-  settings                   = "${jsonencode(local.settings_windows)}"
+  settings                   = jsonencode(local.settings_windows)
 
 depends_on = [null_resource.wait-for-dc]
 }

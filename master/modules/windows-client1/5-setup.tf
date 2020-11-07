@@ -43,29 +43,31 @@ $Shortcut.Save()
 Restart-Computer
 EOF
   settings_windows = {
-    script   = "${compact(concat(split("\n", local.script)))}"
+    script   = compact(concat(split("\n", local.script)))
   }
 }
 
 data "azurerm_resource_group" "main" {
-  name = "${var.resource_group_name}"
+  name = var.resource_group_name
+depends_on = [null_resource.wait-for-setup]
 }
 
 data "azurerm_virtual_machine" "main" {
-  name                = "${azurerm_virtual_machine.client.name}"
-  resource_group_name = "${data.azurerm_resource_group.main.name}"
+  name                = azurerm_virtual_machine.client.name
+  resource_group_name = data.azurerm_resource_group.main.name
+depends_on = [null_resource.wait-for-setup]
 }
 
 resource "azurerm_virtual_machine_extension" "windows" {
-  name                       = "${azurerm_virtual_machine.client.name}-run-command"
-  location                   = "${data.azurerm_resource_group.main.location}"
-  resource_group_name        = "${data.azurerm_resource_group.main.name}"
-  virtual_machine_name       = "${data.azurerm_virtual_machine.main.name}"
+  name                       = "azurerm_virtual_machine.client.name-run-command"
+  location                   = data.azurerm_resource_group.main.location
+  resource_group_name        = data.azurerm_resource_group.main.name
+  virtual_machine_name       = data.azurerm_virtual_machine.main.name
   publisher                  = "Microsoft.CPlat.Core"
   type                       = "RunCommandWindows"
   type_handler_version       = "1.1"
   auto_upgrade_minor_version = true
-  settings                   = "${jsonencode(local.settings_windows)}"
+  settings                   = jsonencode(local.settings_windows)
 
 depends_on = [null_resource.wait-for-setup]
 }
