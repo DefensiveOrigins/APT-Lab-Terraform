@@ -1,8 +1,9 @@
 module "run_command" {
   source               = "innovationnorway/vm-run-command/azurerm"
-  resource_group_name  = "${var.resource_group_name}"
-  virtual_machine_name = "${azurerm_virtual_machine.linux.name}"
+  resource_group_name  = var.resource_group_name
+  virtual_machine_name = azurerm_virtual_machine.linux.name
   os_type              = "linux"
+  depends_on = [azurerm_virtual_machine.linux]
 
   script = <<EOF
 apt-get update
