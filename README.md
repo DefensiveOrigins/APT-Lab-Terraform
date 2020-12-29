@@ -131,6 +131,7 @@ To confirm successful deployment the following 3 virtual machines will be found 
 
 ![](images/azure_1.jpg)
 
+Deployment, include all the post-installation scripts, may take twenty minutes or more. Setup of the Linux node, with its ELK stack, will take the longest.
 
 
 ## Troubleshooting Steps
@@ -149,6 +150,23 @@ Errors referencing a 'duplicate' are also solved by this. Examples include:
 Error: Duplicate module call
 Error: Duplicate resource "azurerm_resource_group" configuration
 ```
+
+
+If LabBuilder.py gives you an error as follows:
+```
+TypeError: replace() argument 2 must be str, not tuple
+```
+
+... it means that you copy-pasted configuration data for your Azure Cloud authentication, without removing the trailing comma (,). Definitions such as "client_id" should not end with a comma.
+
+
+If LabBuilder.py creates only one or two out of the three VMs it will likely also throw an error including the following text:
+```
+Operation could not be completed as it results in exceeding approved Total Regional Cores quota.
+```
+
+This occurs when you have a free/trial Azure Cloud subscription, which is limited to 4 active CPU cores. You may edit the VM definitions for the Active Directory server and the Windows client, to change the VM sizing. This is done in the files named "2-virtual-machine.tf", by replacing the "vm_size" field. The files include an example line to use as replacement. 
+
 
 # Destroying the Lab
 ```bash
