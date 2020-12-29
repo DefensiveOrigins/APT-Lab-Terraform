@@ -7,8 +7,9 @@ resource "azurerm_virtual_machine" "client" {
   location                      = var.location
   resource_group_name           = var.resource_group_name
   network_interface_ids         = [azurerm_network_interface.primary.id]
-  #vm_size                       = "Standard_B2ms"
-  vm_size                       = "Standard_B1ms"
+  # Switch VM sizing if you are on a FREE Azure Cloud subscription.
+  vm_size                       = "Standard_B2ms"
+  #vm_size                       = "Standard_B1ms"
   delete_os_disk_on_termination = true
 
   storage_image_reference {
