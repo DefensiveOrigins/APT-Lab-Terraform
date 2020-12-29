@@ -1,12 +1,12 @@
 resource "azurerm_public_ip" "static" {
-  name                         = "var.prefix-client-ppip"
+  name                         = "${var.prefix}-client-ppip"
   location                     = var.location
   resource_group_name          = var.resource_group_name
   allocation_method = "Static"
 }
 
 resource "azurerm_network_interface" "primary" {
-  name                    = "var.prefix-client-nic"
+  name                    = "${var.prefix}-client-nic"
   location                = var.location
   resource_group_name     = var.resource_group_name
   internal_dns_name_label = local.virtual_machine_name

@@ -9,8 +9,8 @@ resource "azurerm_virtual_machine_extension" "join-domain" {
 
   settings = <<SETTINGS
     {
-        "Name": "var.active_directory_domain",
-        "User": "var.active_directory_username@var.active_directory_domain",
+        "Name": "${var.active_directory_domain}",
+        "User": "${var.active_directory_username}@${var.active_directory_domain}",
         "OUPath": "",
         "Restart": "true",
         "Options": "3"
@@ -19,7 +19,7 @@ SETTINGS
 
   protected_settings = <<PROTECTED_SETTINGS
     {
-        "Password": "var.active_directory_password"
+        "Password": "${var.active_directory_password}"
     }
 PROTECTED_SETTINGS
 depends_on = [null_resource.wait-for-domain-to-provision]

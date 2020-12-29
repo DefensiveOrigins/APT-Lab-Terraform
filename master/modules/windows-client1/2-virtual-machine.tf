@@ -1,5 +1,5 @@
 locals {
-  virtual_machine_name = "var.prefix-client"
+  virtual_machine_name = "${var.prefix}-client"
 }
 
 resource "azurerm_virtual_machine" "client" {
@@ -7,7 +7,8 @@ resource "azurerm_virtual_machine" "client" {
   location                      = var.location
   resource_group_name           = var.resource_group_name
   network_interface_ids         = [azurerm_network_interface.primary.id]
-  vm_size                       = "Standard_B2ms"
+  #vm_size                       = "Standard_B2ms"
+  vm_size                       = "Standard_B1ms"
   delete_os_disk_on_termination = true
 
   storage_image_reference {
@@ -18,7 +19,7 @@ resource "azurerm_virtual_machine" "client" {
   }
 
   storage_os_disk {
-    name              = "local.virtual_machine_name-disk1"
+    name              = "${local.virtual_machine_name}-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
