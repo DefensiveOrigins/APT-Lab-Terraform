@@ -1,8 +1,8 @@
 locals {
-  virtual_machine_name = "var.prefix-dc"
-  virtual_machine_fqdn = "dc01.var.active_directory_domain"
+  virtual_machine_name = "${var.prefix}-dc"
+  virtual_machine_fqdn = "dc01.${var.active_directory_domain}"
   custom_data_params   = "Param($RemoteHostName = \"local.virtual_machine_fqdn\", $ComputerName = \"dc01\")"
-  custom_data_content  = "local.custom_data_params file(path.module/files/winrm.ps1)"
+  custom_data_content  = "${local.custom_data_params} file(path.module/files/winrm.ps1)"
 }
 
 resource "azurerm_virtual_machine" "domain-controller" {
@@ -21,7 +21,7 @@ resource "azurerm_virtual_machine" "domain-controller" {
   }
 
   storage_os_disk {
-    name              = "local.virtual_machine_name-disk1"
+    name              = "${local.virtual_machine_name}-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
