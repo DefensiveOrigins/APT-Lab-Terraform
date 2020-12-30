@@ -1,5 +1,5 @@
 locals {
-  virtual_machine_name = "var.prefix-client"
+  virtual_machine_name = "${var.prefix}-client"
 }
 
 resource "azurerm_virtual_machine" "client" {
@@ -18,7 +18,7 @@ resource "azurerm_virtual_machine" "client" {
   }
 
   storage_os_disk {
-    name              = "local.virtual_machine_name-disk1"
+    name              = "${local.virtual_machine_name}-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
