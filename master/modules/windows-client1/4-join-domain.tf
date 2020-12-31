@@ -22,5 +22,5 @@ SETTINGS
         "Password": "${var.active_directory_password}"
     }
 PROTECTED_SETTINGS
-depends_on = [null_resource.wait-for-domain-to-provision]
+depends_on = [time_sleep.wait-for-domain-to-provision]
 }
