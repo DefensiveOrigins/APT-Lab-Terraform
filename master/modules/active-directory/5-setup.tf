@@ -30,6 +30,7 @@ C:/LABS/scripts/ad-users-create-script.ps1 ${var.admin_password} ${var.admin_use
 C:/LABS/scripts/shareLabs.ps1
 Remove-WindowsFeature Windows-Defender, Windows-Defender-GUI
 ping 1.1.1.1
+Set-DnsServerForwarder -IPAddress 1.1.1.1
 Restart-Computer
 EOF
   settings_windows = {
