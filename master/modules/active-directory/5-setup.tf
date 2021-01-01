@@ -31,6 +31,10 @@ C:/LABS/scripts/shareLabs.ps1
 Remove-WindowsFeature Windows-Defender, Windows-Defender-GUI
 ping 1.1.1.1
 Set-DnsServerForwarder -IPAddress 1.1.1.1
+Add-DnsServerPrimaryZone -NetworkID "10.10.98.0/24" -ReplicationScope "Forest"
+Add-DnsServerResourceRecordA -CreatePtr -Name linux -IPv4Address 10.10.98.20 -ZoneName labs.local
+Add-DnsServerResourceRecordPtr -Name 14 -ZoneName "98.10.10.in-addr.arpa" -PtrDomainName "ws01.labs.local"
+Add-DnsServerResourceRecordPtr -Name 10 -ZoneName "98.10.10.in-addr.arpa" -PtrDomainName "dc.labs.local"
 Restart-Computer
 EOF
   settings_windows = {
