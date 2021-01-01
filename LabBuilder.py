@@ -1,12 +1,33 @@
 import urllib,json, subprocess, os, errno, shutil, argparse, configparser, csv, time
 from requests import get
 
+############ Setup section for students 
+#
+
+# By default your VMs will be deployed to Azure Cloud in a Central US data center.
+# For a list of valid, alternative locations run the following command:
+#   az account list-locations -o table
+#
+# Apply the desired value from the "name" column in the region variable.
+
 region="centralus"
+
+# To deploy your VMs to Azure Cloud, you will first need to create an Azure 
+# Service Principal and a "secret token". These will be used by this script to 
+# Terraform your lab environment.
+# See -> https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret
+#
+# BEWARE!
+# The following information allows direct login to your Azure Cloud environment!
+# Treat this file as highly confidential!
 
 subscription_id = ""
 client_id       = ""
 client_secret   = ""
 tenant_id       = ""
+
+############ END OF Setup section for students 
+
 
 def copy(src, dest):
     try:
