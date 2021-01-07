@@ -37,6 +37,7 @@ Add-DnsServerResourceRecordPtr -Name 14 -ZoneName "98.10.10.in-addr.arpa" -PtrDo
 Add-DnsServerResourceRecordPtr -Name 10 -ZoneName "98.10.10.in-addr.arpa" -PtrDomainName "dc01.labs.local"
 Add-DnsServerResourceRecordCName -Name "dc" -HostNameAlias "dc01.labs.local" -ZoneName "labs.local"
 Add-DnsServerResourceRecordCName -Name "helk" -HostNameAlias "linux.labs.local" -ZoneName "labs.local"
+Add-DnsServerResourceRecordCName -Name "nux01" -HostNameAlias "linux.labs.local" -ZoneName "labs.local"
 
 Restart-Computer
 EOF
