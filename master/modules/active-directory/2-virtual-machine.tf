@@ -1,7 +1,7 @@
 locals {
   virtual_machine_name = "${var.prefix}-dc"
   virtual_machine_fqdn = "dc01.${var.active_directory_domain}"
-  custom_data_params   = "Param($RemoteHostName = \"local.virtual_machine_fqdn\", $ComputerName = \"dc01\")"
+  custom_data_params   = "Param($RemoteHostName = \"${local.virtual_machine_fqdn}\", $ComputerName = \"dc01\")"
   custom_data_content  = "${local.custom_data_params} file(path.module/files/winrm.ps1)"
 }
 
@@ -10,7 +10,9 @@ resource "azurerm_virtual_machine" "domain-controller" {
   location                      = var.location
   resource_group_name           = var.resource_group_name
   network_interface_ids         = [azurerm_network_interface.primary.id]
+  # Switch VM sizing if you are on a FREE Azure Cloud subscription.
   vm_size                       = "Standard_B2ms"
+  #vm_size                       = "Standard_B1ms"
   delete_os_disk_on_termination = true
 
   storage_image_reference {
@@ -42,7 +44,7 @@ resource "azurerm_virtual_machine" "domain-controller" {
       pass         = "oobeSystem"
       component    = "Microsoft-Windows-Shell-Setup"
       setting_name = "AutoLogon"
-      content      = "<AutoLogon><Password><Value>var.admin_password</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>var.admin_username</Username></AutoLogon>"
+      content      = "<AutoLogon><Password><Value>${var.admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.admin_username}</Username></AutoLogon>"
     }
 
     additional_unattend_config {
