@@ -7,8 +7,9 @@ module "run_command" {
 
   script = <<EOF
 apt-get update
-apt-get install -y git python3-pip python3.8 p7zip-full
+apt-get install -y git python3-pip python3.8 p7zip-full 
 python3.6 -m pip install virtualenv
+apt-get install -y python3-venv
 chmod 777 /opt
 cd /opt/
 wget https://github.com/DefensiveOrigins/APT-Lab-Terraform-Linux/raw/master/linuxtools.7z
