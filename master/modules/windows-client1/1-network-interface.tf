@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "primary" {
   location                = var.location
   resource_group_name     = var.resource_group_name
   internal_dns_name_label = local.virtual_machine_name
-  network_security_group_id     =var.networksec_group
+  #network_security_group_id     =var.networksec_group
   dns_servers             = [ "10.10.98.10" ]
   ip_configuration {
     name                          = "primary"

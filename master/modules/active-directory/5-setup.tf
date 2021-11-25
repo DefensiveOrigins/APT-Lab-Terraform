@@ -59,9 +59,9 @@ depends_on = [time_sleep.wait-for-dc]
 
 resource "azurerm_virtual_machine_extension" "windows" {
   name                       = "${azurerm_virtual_machine.domain-controller.name}-run-command"
-  location                   = data.azurerm_resource_group.main.location
-  resource_group_name        = data.azurerm_resource_group.main.name
-  virtual_machine_name       = data.azurerm_virtual_machine.main.name
+  #location                   = data.azurerm_resource_group.main.location
+  #resource_group_name        = data.azurerm_resource_group.main.name
+  virtual_machine_id         = data.azurerm_virtual_machine.main.id
   publisher                  = "Microsoft.CPlat.Core"
   type                       = "RunCommandWindows"
   type_handler_version       = "1.1"
