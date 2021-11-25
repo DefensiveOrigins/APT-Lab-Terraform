@@ -10,7 +10,7 @@ from requests import get
 #
 # Apply the desired value from the "name" column in the region variable.
 
-region="centralus"
+region="westeurope"
 
 # To deploy your VMs to Azure Cloud, you will first need to create an Azure 
 # Service Principal and a "secret token". These will be used by this script to 
@@ -21,10 +21,10 @@ region="centralus"
 # The following information allows direct login to your Azure Cloud environment!
 # Treat this file as highly confidential!
 
-subscription_id = ""
-client_id       = ""
-client_secret   = ""
-tenant_id       = ""
+subscription_id = "xxxxx"
+client_id       = "yyyy"
+client_secret   = "zzzz"
+tenant_id       = "aaaa"
 
 ############ END OF Setup section for students 
 
@@ -48,8 +48,8 @@ def buildmain(mgmtip):
     staticinfo='''provider "azurerm" {
     # The "feature" block is required for AzureRM provider 2.x. 
     # If you're using version 1.x, the "features" block is not allowed.
-    version = "1.27.0"
-
+    #version = "2.46.0"
+    features{}
     subscription_id = "subid"
     client_id       = "clid"
     client_secret   = "clse"
@@ -170,6 +170,7 @@ resource "azurerm_network_security_group" "stu-rdp" {
     maintf.write(tmp)    
 
 def main():
+#    os.system("rm -r LABS/")
     parser = argparse.ArgumentParser(description='Creates Azure resources for Lab environment with terraform')
     parser.add_argument('-m', help='Public IP Addresses for management access rules(ex. 1.1.1.1 or 1.1.1.0/24', 
         metavar='input_mgmt', dest='mgmtip', type=str, nargs='+', required=False)
@@ -201,5 +202,6 @@ def main():
       copy(masterfolder,classfolder)
       buildmain(mgmtip)
       os.system("cd LABS && terraform init")
+      #os.system("cd LABS && terraform plan")
       os.system("cd LABS && terraform apply -auto-approve")
 main()
