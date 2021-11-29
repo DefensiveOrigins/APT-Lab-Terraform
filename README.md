@@ -1,9 +1,7 @@
+# Forked and updated to work with newer Azurerm versions.
 
 
-
-![Defensive Origins](https://defensiveorigins.com/wp-content/uploads/2020/05/defensive-origins-header-6-1536x760.png)
-
-# Applied Purple Teaming Threat Optics Lab - Azure TerraForm 
+# Automated Creation of Penetration Testing Lab using Azure TerraForm 
 Purple Teaming Attack &amp; Hunt Lab - TerraForm
 
 <!-- Start Document Outline -->
@@ -29,7 +27,7 @@ Purple Teaming Attack &amp; Hunt Lab - TerraForm
 
 ---
 ## Background
-Defensive Origins uses a highly verbose threat optics lab to isolate adversarial techniques to more easily attribute IOC (indicators of compromise).  These labs have routinely been time consuming to build and manage.  The platform included here automates much of the threat-optic lab environment built on the Azure cloud network.
+This repo is intended to help penetration testers deploy labs in 30 minutes or less, including all their desired Virtual-machines, Domain Controllers, Network-Configurations and more.
 
 ## Installation:
 
@@ -51,7 +49,7 @@ https://learn.hashicorp.com/terraform/getting-started/install.html
 Default credentials are set in LabBuilder.py.
 * Windows & Linux systems:
 ```bash
-itadmin:APTClass!
+myadmin:Admin123!
 ```
 * Kibana:
 ```bash 
@@ -63,22 +61,18 @@ The credentials can be changed within the locals variable:
 ``` bash  
 locals {
   resource_group_name   = "class-resources"
-  master_admin_username ="itadmin"
-  master_admin_password ="APTClass!"
-  master_domain         ="labs.local"
+  master_admin_username ="myadmin"
+  master_admin_password ="Admin123!"
+  master_domain         ="pentest.lab"
 }
 ```
 
+**Kibana**
 The password for Kibana can be changed by editing the HELK install line:
 ```bash
 ./helk_install.sh -p hunting -i 10.10.98.20 -b 'helk-kibana-analysis-alert'
 ```
 within the
-```bash
-3-setup.tf`
-```
-This file is located at:
-
 ```bash
 APT-Lab-Terraform/master/modules/linux/3-setup.tf
 ```
@@ -89,8 +83,6 @@ Please note the following regarding access:
 * An SSH client will need to be installed on the Windows machines in order to SSH to the Linux system.
 
 
-
-
 ## Configure Regions
 * You can also update the Region variable to desired region. This is updated LabBuilder.py.
 * List of regions can be found here that offer the B-series we use in this lab environment.
@@ -99,7 +91,7 @@ Please note the following regarding access:
 ## Clone APT TerraForm Repository
 
 ```bash
-git clone https://github.com/DefensiveOrigins/APT-Lab-Terraform.git
+git clone https://github.com/oerlex/APT-Lab-Terraform.git
 cd APT-Lab-Terraform
 ```
 
@@ -107,17 +99,9 @@ cd APT-Lab-Terraform
 Run the builder and deploy your systems.
 
 ```bash
-python .\LabBuilder.py -m YOURPUBLICIP
-```
-Please note:
-* If this script errors, or there are missing dependencies ensure it is being executed with Python 3.X. As such, attempt to execute with Python3 directly:
-```bash
 python3 .\LabBuilder.py -m YOURPUBLICIP
 ``` 
-
-
-
-## Source IP Filtering
+### Source IP Filtering
 The -m flag will accept a single IP Address or Subnet as input. This adds the IP as a SRC IP address filter on the lab environment. 
 ```bash
 -m [IP]
@@ -134,7 +118,20 @@ To confirm successful deployment the following 3 virtual machines will be found 
 Deployment, include all the post-installation scripts, may take twenty minutes or more. Setup of the Linux node, with its ELK stack, will take the longest.
 
 
-## Troubleshooting Steps
+# Destroying the Lab
+```bash
+python .\LabBuilder.py -destroy
+```
+
+The '-d' or '-destroy' flag will execute theTerraform destroy command. This will remove the Lab in Azure. **CAUTION**: All data within the VMs will be deleted.
+
+Please confirm within the Azure portal that everything has been deleted.
+
+
+
+# Troubleshooting
+
+## Setup
 If LabBuilder.py errors during execution. Delete the LABS folder, found at 
 ```bash
 APT-Lab-Terraform/LABS/
@@ -150,7 +147,6 @@ Errors referencing a 'duplicate' are also solved by this. Examples include:
 Error: Duplicate module call
 Error: Duplicate resource "azurerm_resource_group" configuration
 ```
-
 
 If LabBuilder.py gives you an error as follows:
 ```
@@ -168,21 +164,7 @@ Operation could not be completed as it results in exceeding approved Total Regio
 This occurs when you have a free/trial Azure Cloud subscription, which is limited to 4 active CPU cores. You may edit the VM definitions for the Active Directory server and the Windows client, to change the VM sizing. This is done in the files named "2-virtual-machine.tf", by replacing the "vm_size" field. The files include an example line to use as replacement. 
 
 
-# Destroying the Lab
-```bash
-python .\LabBuilder.py -destroy
-```
-
-The '-d' or '-destroy' flag will execute theTerraform destroy command. This will remove the Lab in Azure. **CAUTION**: All data within the VMs will be deleted.
-
-Please confirm within the Azure portal that everything has been deleted.
-
-
-
-
 ## Accessing HELK:
-
-
 
 --- 
 
