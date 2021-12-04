@@ -1,0 +1,4 @@
+Name,Size,OS,Version,Admin Name,DomainController
+Win-DC,Standard_B2ms,2016-Datacenter,14393,Bob,Y
+Debian-Client,Standard_B2ms,18.04-LTS,,Bob,
+Windows-Client,Standard_B2ms,20h1-pro,,Bob,

@@ -13,9 +13,9 @@ resource "azurerm_virtual_machine" "client" {
   delete_os_disk_on_termination = true
 
   storage_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    publisher = "MicrosoftWindowsDesktop"
+    offer     = "Windows-10"
+    sku       = "20h1-pro"
     version   = "latest"
   }
 

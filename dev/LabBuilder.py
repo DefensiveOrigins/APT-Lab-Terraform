@@ -166,11 +166,7 @@ def buildmain(mgmtip):
     tmp=tmp.replace('regionalregion',region)
     maintf.write(tmp)
 
-def csvParser():
-    with open(csvpath) as csvfile:
-        csv-reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        for row in csv-reader:
-                print(', '.join(row))
+
 
 def main():
     parser = argparse.ArgumentParser(description='Creates Azure resources for Lab environment with terraform')
@@ -180,7 +176,7 @@ def main():
     parser.add_argument('-r','-region', help='Set the region where you want the lab to be deployed. Default "westeurope"', dest='region', type=str, required=False)
     parser.add_argument('-u','-username', help='Specify the username of the domain administrator. Default: myadmin',dest='username', type=str, required=False)
     parser.add_argument('-p','-password', help='Specify the password of the domain administrator. Default: Admin123!. Remember to follow the default password complexity --> https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements',dest='password', type=str, required=False)
-    parser.add_argument('-c','-csv-file', help='Specify the path the .csv file. This file enables bulk creation. The user can define all VMs in the .csv template and create them by parsing that file. It needs to follow a certain structure. You can find the template at https://github.com/oerlex/APT-Lab-Terraform',dest='csv', type=str, required=False)
+    parser.add_argument('-c','-csv-file', help='Specify the path the .csv file. This file enables bulk creation. The user can define all VMs in the .csv template and create them by parsing that file. It needs to follow a certain structure. You can find the template at https://github.com/oerlex/APT-Lab-Terraform')
     args=parser.parse_args()
 
     if args.destroy_switch:
@@ -206,7 +202,6 @@ def main():
       region=args.region
       username=args.username
       password=args.password
-      csvpath=args.csv
       masterfolder="./master"
       classfolder="./LABS"
       copy(masterfolder,classfolder)

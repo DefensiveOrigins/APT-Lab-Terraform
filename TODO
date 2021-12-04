@@ -1,0 +1,53 @@
+1. Fix DC and Network components but is it possible to let the user customize the VMs a bit more
+https://codeburst.io/building-beautiful-command-line-interfaces-with-python-26c7e1bb54df
+
+
+Make following parameters variable:
+
+Azure
+- Azure region
+- Creds?
+
+VM
+- VM Size
+- VM Name
+- OS
+      storage_image_reference {
+        publisher = "MicrosoftWindowsServer"
+        offer     = "WindowsServer"
+        sku       = "2016-Datacenter"
+        version   = "latest"
+      }
+
+Domain
+- Domain Name
+- Admin name
+- Admin Password
+
+
+
+
+
+Hi, do you need a Windows Domain Controller in your lab?  Y/N
+  If Y:
+    Specify Domain Controller Name
+    Specify WindowsServer Version e.g 2016-Datacenter.See the following list for valid SKUs https://docs.microsoft.com/bs-latn-ba/azure/backup/backup-azure-policy-supported-skus
+    Do you want to specify a specific Build? Y/N
+      If Y: Specify Build e.g 14393.0 !Must correspond to WindowsServer version. This software does not validate it! See the list of server releases --> https://docs.microsoft.com/en-us/windows-server/get-started/windows-server-release-info
+    Specify the Domain name e.g pentest.lab
+    Specify the Domain Admin Name
+    Speficy the Domain Admin pw
+
+What virtual machine do you want to add to Azure? Win10, Ubuntu Server, Kali !The support for further OS will be added in the future!
+  TODO ( az vm image list filter by offer and sku)
+
+    AWK approach:  -F "[, ]+" '/offer/|| /sku/{print $NF":", $2 $1, $(NF-1)}'
+    Build-in query approach: az vm image list --query [].[publisher,sku]
+
+
+listVMs = Kali, Win10, Ubuntu Server
+
+for vm in listVMs:
+  vm.name = Input.Name
+  vm.size = Input.Size e.g Standard_B2ms
+  vm.OS   = vm.OS
